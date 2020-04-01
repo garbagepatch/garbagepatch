@@ -1,0 +1,15 @@
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  7.748194   0.219963  35.225  < 2e-16 ***
+TOT          0.034655   0.393533   0.088  0.93016    
+pH           0.056505   0.028901   1.955  0.05585 .  
+NACL         0.010457   0.026235   0.399  0.69179    
+TOT:pH      -0.006594   0.048557  -0.136  0.89249    
+TOT:NACL    14.495424   4.789248   3.027  0.00381 ** 
+TOT:pH:NACL -1.968217   0.583835  -3.371  0.00140 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.09336 on 53 degrees of freedom
+Multiple R-squared:  0.3447,	Adjusted R-squared:  0.2705 
+F-statistic: 4.647 on 6 and 53 DF,  p-value: 0.0007298
