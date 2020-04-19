@@ -2,7 +2,6 @@ from twisted.internet import defer
 from twisted.internet.protocol import Factory
 
 # Package Imports
-from ..util import now
 from ..machine import Machine, Component, Stream, Property
 from ..protocol.basic import QueuedLineReceiver as _qlr
 __all__ = ["MasterFlex", "Pump"]
@@ -22,19 +21,15 @@ class Masterflex (Machine):
     def setup (self):
 
         def set_power (power):
-			cmd = "ON" if power == "on" else "OFF"
-			return self.protocol.write(cmd)
+            cmd = "ON" if power == "on" else "OFF"
+            return self.protocol.write(cmd)
 
         self.status = Property(title = "Status", type = str)
         self.power = Property(title = "Power", type = str, options = ("on", "off"), setter = set_power)
         self.direction = Property(title = "Direction", type = str, options = ("cw", "ccw"))
         self.ui = ui(
-            trace = [{
-                "title": "Power",
-                "traces": [self.power],
-                "colours": ["#0c4"]
-            }],
-            properties = [self.direction]
+            trace = [],
+            properties = [self.power]
         )
     def start (self):
         ''' (G) Go Turn pump on and auxiliary output if preset,
@@ -71,15 +66,10 @@ class Masterflex (Machine):
         ''' (H) Halt (turn pump off) '''
         cmd = "H"
         return self.protocol.write(cmd)
-    	def reset (self):
-		return defer.gatherResults([
-			self.power.set("off"),
+    def reset (self):
+        return defer.gatherResults([
+            self.power.set("off"),
 			self.target.set(0)
 		])
 
-	def pause (self):
-		self._pauseState = self.power.value
-		return self.power.set("off")
 
-	def resume (self):
-		return self.power.set(self._pauseState)
